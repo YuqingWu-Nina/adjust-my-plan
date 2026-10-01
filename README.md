@@ -1,7 +1,5 @@
 # Adjust My Plan
 
-**Repository:** [github.com/YuqingWu-Nina/adjust-my-plan](https://github.com/YuqingWu-Nina/adjust-my-plan)
-
 ## Project idea
 
 **Adjust My Plan** is a small browser prototype for students who procrastinate or are interrupted by unexpected tasks. It is a daily planner: every assignment stays today. When a new task arrives, the page automatically squeezes flexible time blocks instead of asking the student to drag tasks by hand.
@@ -17,8 +15,6 @@ This is a learning prototype, not a full calendar or a real deadline-management 
 No installation, account, internet connection, or external library is needed.
 
 ## Open the HTML file
-
-[Open `index.html` on GitHub](./index.html)
 
 ## Simple scheduling rules
 
