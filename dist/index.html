@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adjust My Plan</title>
+  <style>
+    :root { --ink:#24313d; --muted:#62717d; --sky:#e8f3f5; --mint:#dff3e8; --lavender:#eee8fb; --coral:#c65e56; --line:#d9e2e2; --deep:#276b72; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:linear-gradient(135deg,#eef8f6,#f8f3ea); color:var(--ink); font-family:ui-rounded,"Nunito","Avenir Next",system-ui,sans-serif; }
+    main { width:min(1050px,calc(100% - 28px)); margin:0 auto; padding:42px 0 58px; }
+    h1 { margin:0; font-size:clamp(2rem,5vw,3.25rem); letter-spacing:-.05em; }
+    h2 { margin:0; font-size:1.2rem; } h3 { margin:0 0 8px; font-size:1rem; }
+    .eyebrow { margin:0 0 8px; color:var(--deep); font-size:.85rem; font-weight:800; letter-spacing:.08em; }
+    .intro { max-width:700px; color:var(--muted); font-size:1.05rem; line-height:1.6; }
+    .card { background:rgba(255,253,249,.94); border:1px solid rgba(255,255,255,.95); border-radius:20px; box-shadow:0 12px 30px rgba(52,77,77,.08); }
+    .form-card { margin:26px 0 20px; padding:22px; }
+    .form-grid { display:grid; grid-template-columns:2fr repeat(3,1fr) auto; gap:12px; align-items:end; }
+    label { display:grid; gap:6px; color:#44505c; font-size:.84rem; font-weight:800; }
+    input,select,button { min-height:43px; border-radius:10px; font:inherit; }
+    input,select { width:100%; padding:0 11px; color:var(--ink); background:#fff; border:1px solid var(--line); }
+    input:focus,select:focus { outline:3px solid #afdce1; border-color:#6caebb; }
+    button { border:0; padding:0 16px; background:var(--deep); color:#fff; font-weight:800; cursor:pointer; }
+    button:hover { background:#1d565c; } button.secondary { background:#e7f1f0; color:#276b72; }
+    .hint { margin:12px 0 0; color:var(--muted); font-size:.9rem; line-height:1.45; }
+    .toolbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:18px 0; }
+    .task-count { color:var(--muted); font-size:.9rem; }
+    .calendars { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
+    .phone-calendar { overflow:hidden; padding:8px; }
+    .calendar-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:9px 10px; }
+    .calendar-head p { margin:4px 0 0; color:var(--muted); font-size:.82rem; }
+    .pill { display:inline-block; padding:5px 8px; border-radius:999px; color:#276b72; background:#e7f3f2; font-size:.72rem; font-weight:900; letter-spacing:.06em; }
+    .pill.after { color:#70529d; background:var(--lavender); }
+    .timeline { display:grid; gap:7px; min-height:290px; padding:10px; margin:0; list-style:none; border-radius:14px; background:#f5f8f7; }
+    .timeline li { display:grid; grid-template-columns:82px 1fr; align-items:center; gap:10px; min-height:var(--block-height,54px); padding:10px; border-left:4px solid #83c2c8; border-radius:10px; background:var(--sky); }
+    .timeline li.break { border-left-color:#75bb90; background:var(--mint); } .timeline li.high { border-left-color:#d96d61; background:#fff0ed; }
+    .time { align-self:start; padding-top:2px; color:#42515d; font-size:.8rem; font-weight:900; font-variant-numeric:tabular-nums; }
+    .task-name { display:block; font-size:.94rem; font-weight:850; } .task-detail { display:block; margin-top:3px; color:#596875; font-size:.76rem; line-height:1.35; }
+    .empty { display:grid !important; min-height:260px !important; place-items:center; padding:22px !important; border:2px dashed var(--line) !important; background:transparent !important; color:var(--muted); text-align:center; }
+    .change-box { margin:20px 0 0; padding:18px; } .changes { margin:0; padding-left:20px; color:#44505c; line-height:1.55; } .changes li + li { margin-top:7px; }
+    .status { margin-top:20px; padding:18px 20px; border-radius:14px; color:#245d43; background:var(--mint); font-weight:700; line-height:1.5; } .status.conflict { color:#a44843; background:#fff0ed; } .status strong { display:block; margin-bottom:3px; }
+    @media (max-width:800px) { main { width:min(460px,calc(100% - 24px)); padding-top:26px; } .form-grid,.calendars { grid-template-columns:1fr; } .form-grid button { width:100%; } .phone-calendar { border-radius:26px; box-shadow:0 16px 36px rgba(52,77,77,.12); } .calendars { gap:18px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">🌿 DAILY AUTO-SQUEEZE PLANNER</p>
+      <h1>Adjust My Plan</h1>
+      <p class="intro">All of today’s assignments stay today. When a new task arrives, the calendar automatically protects each task’s minimum time and squeezes flexible time—no dragging required.</p>
+    </header>
+    <section class="card form-card" aria-labelledby="add-task-title">
+      <h2 id="add-task-title">Add a task for today</h2>
+      <form id="task-form"><div class="form-grid">
+        <label>Task name <input id="task-name" placeholder="e.g., Prepare for quiz" required maxlength="70"></label>
+        <label>Minimum time needed <select id="min-duration"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select></label>
+        <label>Ideal time (up to) <select id="max-duration"><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60" selected>60 minutes</option><option value="90">90 minutes</option></select></label>
+        <label>Importance <select id="importance"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label>
+        <button type="submit">Add &amp; auto-adjust</button>
+      </div></form>
+      <p class="hint">“Ideal time” is the full block you would like. “Minimum time” is the smallest useful block the planner is allowed to keep.</p>
+    </section>
+    <div class="toolbar"><span id="task-count" class="task-count">No new tasks added yet.</span><button id="reset-button" class="secondary" type="button">Start this day over</button></div>
+    <section class="calendars" aria-label="Today calendar comparison">
+      <article class="card phone-calendar"><header class="calendar-head"><div><span class="pill">BEFORE</span><h2>Today’s original plan</h2><p>3:00–6:00 PM · 180 minutes</p></div></header><ul id="original-schedule" class="timeline"></ul></article>
+      <article class="card phone-calendar"><header class="calendar-head"><div><span class="pill after">AFTER · AUTO-ADJUSTED</span><h2>Today’s new plan</h2><p id="capacity-label">Add a task to build the calendar.</p></div></header><ul id="adjusted-schedule" class="timeline"><li class="empty">Your auto-adjusted daily calendar will appear here.</li></ul></article>
+    </section>
+    <section id="change-box" class="card change-box" hidden aria-live="polite"><h3>What changed automatically?</h3><ul id="changes" class="changes"></ul></section>
+    <div id="status" class="status" role="status" aria-live="polite"><strong>You have a plan.</strong>Add a task when life interrupts. The calendar will do the rearranging.</div>
+  </main>
+  <script>
+    const START_MINUTES = 15 * 60;
+    const END_MINUTES = 18 * 60;
+    const priority = { high: 3, medium: 2, low: 1 };
+    // Each task is for today. duration starts at its ideal time and may only shrink to minDuration.
+    const originalTasks = [
+      { name: "Finish reading assignment", duration: 60, minDuration: 45, importance: "medium", order: 1 },
+      { name: "Break", duration: 30, minDuration: 15, isBreak: true, order: 2 },
+      { name: "Work on presentation", duration: 60, minDuration: 30, importance: "low", order: 3 }
+    ];
+    let incomingTasks = [];
+    function formatTime(minutes) { const hour24 = Math.floor(minutes / 60); return `${hour24 % 12 || 12}:${String(minutes % 60).padStart(2, "0")}`; }
+    function totalMinutes(tasks) { return tasks.reduce((total, task) => total + task.duration, 0); }
+    function sortByImportance(tasks) { return [...tasks].sort((a, b) => priority[b.importance] - priority[a.importance] || a.order - b.order); }
+    function showSchedule(element, tasks, emptyMessage) {
+      element.innerHTML = "";
+      if (tasks.length === 0) { const empty = document.createElement("li"); empty.className = "empty"; empty.textContent = emptyMessage; element.appendChild(empty); return; }
+      let currentTime = START_MINUTES;
+      tasks.forEach((task) => {
+        const endTime = currentTime + task.duration;
+        const item = document.createElement("li");
+        item.style.setProperty("--block-height", `${Math.max(48, 36 + task.duration * .52)}px`);
+        if (task.isBreak) item.classList.add("break"); if (task.importance === "high") item.classList.add("high");
+        const time = document.createElement("span"); const content = document.createElement("span"); const name = document.createElement("span"); const detail = document.createElement("span");
+        time.className = "time"; name.className = "task-name"; detail.className = "task-detail";
+        time.textContent = `${formatTime(currentTime)}–${formatTime(endTime)}`; name.textContent = task.name;
+        detail.textContent = task.isBreak ? `${task.duration}-minute reset` : `${task.duration} min now · protected minimum ${task.minDuration} min`;
+        content.append(name, detail); item.append(time, content); element.appendChild(item); currentTime = endTime;
+      });
+    }
+    function showChanges(changes) { const box = document.querySelector("#change-box"); const list = document.querySelector("#changes"); list.innerHTML = ""; changes.forEach((change) => { const item = document.createElement("li"); item.textContent = change; list.appendChild(item); }); box.hidden = false; }
+    function setStatus(title, message, conflict = false) { const status = document.querySelector("#status"); status.className = conflict ? "status conflict" : "status"; status.innerHTML = `<strong>${title}</strong>${message}`; }
+    // Main rule: keep every task today, then squeeze the least important flexible blocks first.
+    function makeDailyPlan(newTasks) {
+      const breakTask = { ...originalTasks.find((task) => task.isBreak) };
+      const workTasks = [...originalTasks.filter((task) => !task.isBreak), ...newTasks].map((task) => ({ ...task }));
+      const availableMinutes = END_MINUTES - START_MINUTES; const changes = []; const planLength = () => totalMinutes(workTasks) + breakTask.duration;
+      while (planLength() > availableMinutes) {
+        // Lower-priority work squeezes first. When importance matches, existing work squeezes before new work.
+        const flexibleTasks = workTasks.filter((task) => task.duration > task.minDuration).sort((a, b) => {
+          const priorityDifference = priority[a.importance] - priority[b.importance];
+          if (priorityDifference !== 0) return priorityDifference;
+          if (a.isNew !== b.isNew) return a.isNew ? 1 : -1;
+          return b.duration - a.duration;
+        });
+        const taskToSqueeze = flexibleTasks[0]; if (!taskToSqueeze) break;
+        const reduction = Math.min(planLength() - availableMinutes, taskToSqueeze.duration - taskToSqueeze.minDuration);
+        taskToSqueeze.duration -= reduction;
+        changes.push(`Shortened “${taskToSqueeze.name}” by ${reduction} minutes, but kept its ${taskToSqueeze.minDuration}-minute minimum.`);
+      }
+      if (planLength() > availableMinutes && breakTask.duration > breakTask.minDuration) {
+        const reduction = Math.min(planLength() - availableMinutes, breakTask.duration - breakTask.minDuration);
+        breakTask.duration -= reduction; changes.push(`Shortened the break to ${breakTask.duration} minutes so you still get a pause.`);
+      }
+      if (planLength() > availableMinutes) return { canFit: false, shortBy: planLength() - availableMinutes, changes };
+      const orderedWork = sortByImportance(workTasks); const schedule = [orderedWork[0], breakTask, ...orderedWork.slice(1)];
+      if (changes.length === 0) changes.push("All tasks fit at their ideal times, so nothing needed to squeeze.");
+      return { canFit: true, schedule, changes, total: planLength() };
+    }
+    function updateTaskCount() { const count = incomingTasks.length; document.querySelector("#task-count").textContent = count ? `${count} new task${count === 1 ? "" : "s"} added today. Add another whenever it comes in.` : "No new tasks added yet."; }
+    function renderPlan() {
+      const result = makeDailyPlan(incomingTasks);
+      if (!result.canFit) { showSchedule(document.querySelector("#adjusted-schedule"), [], "The protected minimum times cannot fit into today."); document.querySelector("#capacity-label").textContent = `Over by ${result.shortBy} minutes.`; showChanges([...result.changes, "Every remaining task is already at its protected minimum time."]); setStatus("Today cannot safely hold every minimum block.", `You need ${result.shortBy} more minute${result.shortBy === 1 ? "" : "s"}. This planner will not secretly delete or move an assignment.`, true); return; }
+      showSchedule(document.querySelector("#adjusted-schedule"), result.schedule, "Your auto-adjusted calendar will appear here."); document.querySelector("#capacity-label").textContent = `${result.total} of 180 minutes planned today.`; showChanges(result.changes); setStatus("Your day was adjusted automatically.", "Every assignment remains today. Start with the first block; the calendar has already protected the minimum time for the rest.");
+    }
+    showSchedule(document.querySelector("#original-schedule"), originalTasks, ""); updateTaskCount();
+    document.querySelector("#task-form").addEventListener("submit", (event) => {
+      event.preventDefault(); const minDuration = Number(document.querySelector("#min-duration").value); const maxDuration = Number(document.querySelector("#max-duration").value);
+      if (minDuration > maxDuration) { setStatus("Check the time range.", "The minimum time cannot be longer than the ideal time.", true); return; }
+      incomingTasks.push({ name: document.querySelector("#task-name").value.trim(), duration: maxDuration, minDuration, importance: document.querySelector("#importance").value, isNew: true, order: 10 + incomingTasks.length });
+      event.currentTarget.reset(); document.querySelector("#min-duration").value = "30"; document.querySelector("#max-duration").value = "60"; updateTaskCount(); renderPlan();
+    });
+    document.querySelector("#reset-button").addEventListener("click", () => { incomingTasks = []; document.querySelector("#adjusted-schedule").innerHTML = '<li class="empty">Your auto-adjusted daily calendar will appear here.</li>'; document.querySelector("#capacity-label").textContent = "Add a task to build the calendar."; document.querySelector("#change-box").hidden = true; updateTaskCount(); setStatus("Ready for a new day.", "Your original daily plan is still on the left. Add the first incoming task when you are ready."); });
+  </script>
+</body>
+</html>
