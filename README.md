@@ -16,9 +16,11 @@ This is a learning prototype, not a full calendar or a real deadline-management 
 
 No installation, account, internet connection, or external library is needed.
 
-## Open the HTML file
+## Try the live website
 
-[Open `index.html` on GitHub](./index.html)
+[Open Adjust My Plan](https://adjust-my-plan-nina.yw4782168231.chatgpt.site)
+
+You can also view the source file: [`index.html`](./index.html).
 
 ## Simple scheduling rules
 
